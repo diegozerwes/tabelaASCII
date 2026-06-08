@@ -5,21 +5,107 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tabela ASCII — 7º Ano</title>
 <style>
-/* (seu CSS original foi mantido 100% igual) */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Segoe UI', sans-serif; background: #0f0f2e; color: #fff; min-height: 100vh; }
-.nav { display: flex; justify-content: center; gap: 8px; padding: 14px 10px; background: #1a1a3e; flex-wrap: wrap; position: sticky; top: 0; z-index: 100; border-bottom: 2px solid #4f46e5; }
-.nav button { background: transparent; border: 2px solid #4f46e5; color: #a5b4fc; padding: 6px 14px; border-radius: 20px; cursor: pointer; }
-.nav button.active, .nav button:hover { background: #4f46e5; color: #fff; }
-.section { display: none; padding: 30px 20px; max-width: 860px; margin: 0 auto; }
-.section.active { display: block; }
-h1 { margin-bottom: 8px; }
-p { margin-bottom: 12px; color: #cbd5e1; }
-.analogy-box { background: #1e1e4a; border-left: 4px solid #818cf8; border-radius: 10px; padding: 16px; margin: 18px 0; }
-.btn-primary { background: #4f46e5; color: #fff; border: none; padding: 10px 24px; border-radius: 20px; cursor: pointer; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #0f0f2e; color: #fff; min-height: 100vh; }
+
+  /* NAV */
+  .nav { display: flex; justify-content: center; gap: 8px; padding: 14px 10px; background: #1a1a3e; flex-wrap: wrap; position: sticky; top: 0; z-index: 100; border-bottom: 2px solid #4f46e5; }
+  .nav button { background: transparent; border: 2px solid #4f46e5; color: #a5b4fc; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 0.82rem; transition: all .2s; }
+  .nav button.active, .nav button:hover { background: #4f46e5; color: #fff; }
+
+  /* SECTIONS */
+  .section { display: none; padding: 30px 20px; max-width: 860px; margin: 0 auto; animation: fadeIn .4s; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+
+  h1 { font-size: 1.8rem; margin-bottom: 8px; }
+  h2 { font-size: 1.3rem; margin-bottom: 14px; color: #a5b4fc; }
+  p { line-height: 1.7; margin-bottom: 12px; color: #cbd5e1; }
+
+  /* INTRO */
+  .hero { text-align: center; padding: 20px 0 30px; }
+  .hero .emoji { font-size: 4rem; margin-bottom: 10px; }
+  .analogy-box { background: #1e1e4a; border-left: 4px solid #818cf8; border-radius: 10px; padding: 16px 20px; margin: 18px 0; }
+  .analogy-box h3 { color: #818cf8; margin-bottom: 8px; }
+  .char-demo { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin: 20px 0; }
+  .char-card { background: #1e1e4a; border: 2px solid #4f46e5; border-radius: 12px; padding: 14px 20px; text-align: center; min-width: 80px; }
+  .char-card .letter { font-size: 2rem; font-weight: bold; color: #818cf8; }
+  .char-card .arrow { font-size: 1.2rem; color: #64748b; margin: 4px 0; }
+  .char-card .code { font-size: 1.3rem; color: #34d399; font-family: monospace; }
+
+  /* TABELA */
+  .filter-row { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+  .filter-row button { background: #1e1e4a; border: 2px solid #4f46e5; color: #a5b4fc; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 0.82rem; transition: all .2s; }
+  .filter-row button.active, .filter-row button:hover { background: #4f46e5; color: #fff; }
+  .ascii-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 8px; max-height: 320px; overflow-y: auto; padding-right: 4px; border: 1px solid #1a1a3e; padding: 8px; border-radius: 8px; }
+  .ascii-grid::-webkit-scrollbar { width: 6px; }
+  .ascii-grid::-webkit-scrollbar-track { background: #1a1a3e; }
+  .ascii-grid::-webkit-scrollbar-thumb { background: #4f46e5; border-radius: 3px; }
+  .ascii-cell { background: #1e1e4a; border: 2px solid transparent; border-radius: 10px; padding: 8px 4px; text-align: center; cursor: pointer; transition: all .2s; }
+  .ascii-cell:hover, .ascii-cell.selected { border-color: #818cf8; background: #2d2d6a; transform: scale(1.06); }
+  .ascii-cell .ac { font-size: 1.3rem; font-weight: bold; color: #fff; }
+  .ascii-cell .an { font-size: 0.75rem; color: #34d399; font-family: monospace; margin-top: 2px; }
+  .detail-box { margin-top: 20px; background: #1e1e4a; border-radius: 12px; padding: 16px 20px; border: 2px solid #4f46e5; display: none; }
+  .detail-box.show { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+  .detail-big { font-size: 3rem; font-weight: bold; color: #818cf8; }
+  .detail-info { flex: 1; }
+  .detail-info span { display: block; font-size: 0.95rem; color: #cbd5e1; margin: 3px 0; }
+  .detail-info strong { color: #34d399; }
+
+  /* CODIFICADOR */
+  .codec-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+  .codec-tabs button { background: #1e1e4a; border: 2px solid #4f46e5; color: #a5b4fc; padding: 8px 18px; border-radius: 20px; cursor: pointer; font-size: 0.9rem; transition: all .2s; }
+  .codec-tabs button.active { background: #4f46e5; color: #fff; }
+  textarea, input[type=text] { width: 100%; background: #1e1e4a; border: 2px solid #4f46e5; color: #fff; border-radius: 10px; padding: 12px; font-size: 1rem; font-family: monospace; resize: vertical; outline: none; }
+  textarea:focus, input[type=text]:focus { border-color: #818cf8; }
+  .btn-primary { background: #4f46e5; color: #fff; border: none; padding: 10px 24px; border-radius: 20px; cursor: pointer; font-size: 1rem; margin-top: 10px; transition: background .2s; }
+  .btn-primary:hover { background: #6366f1; }
+  .result-box { background: #1e1e4a; border-radius: 10px; padding: 14px; margin-top: 14px; font-family: monospace; font-size: 1rem; color: #34d399; word-break: break-all; min-height: 48px; border: 2px solid #1e3a5f; }
+  .result-label { font-size: 0.82rem; color: #64748b; margin-bottom: 4px; }
+
+  /* JOGO */
+  .game-area { background: #1e1e4a; border-radius: 16px; padding: 24px; text-align: center; }
+  .score-row { display: flex; justify-content: space-between; margin-bottom: 18px; }
+  .score-badge { background: #0f0f2e; border-radius: 10px; padding: 8px 16px; font-size: 0.9rem; }
+  .score-badge span { color: #fbbf24; font-weight: bold; font-size: 1.1rem; }
+  .message-codes { font-size: 1.6rem; letter-spacing: 4px; color: #34d399; font-family: monospace; margin: 10px 0 20px; background: #0f0f2e; padding: 14px; border-radius: 10px; }
+  .hint { font-size: 0.85rem; color: #64748b; margin-bottom: 16px; }
+  .letter-slots { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin: 16px 0; min-height: 54px; }
+  .slot { width: 48px; height: 52px; border: 2px dashed #4f46e5; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: bold; color: #818cf8; background: #0f0f2e; transition: all .2s; }
+  .slot.correct { border-color: #34d399; color: #34d399; background: #052e16; }
+  .slot.wrong { border-color: #f87171; color: #f87171; background: #2d0a0a; }
+  .game-input { display: flex; gap: 8px; margin-top: 16px; justify-content: center; flex-wrap: wrap; }
+  .game-input input { max-width: 220px; text-transform: uppercase; }
+  .game-feedback { margin-top: 14px; font-size: 1rem; min-height: 28px; font-weight: bold; }
+  .game-feedback.ok { color: #34d399; }
+  .game-feedback.err { color: #f87171; }
+
+  /* QUIZ */
+  .quiz-progress { display: flex; gap: 6px; margin-bottom: 20px; }
+  .qp-dot { flex: 1; height: 6px; border-radius: 3px; background: #1e1e4a; transition: background .3s; }
+  .qp-dot.done { background: #4f46e5; }
+  .qp-dot.current { background: #818cf8; }
+  .question-box { background: #1e1e4a; border-radius: 14px; padding: 22px; margin-bottom: 16px; }
+  .question-box p { color: #fff; font-size: 1.1rem; margin-bottom: 18px; }
+  .options { display: grid; gap: 10px; }
+  .opt { background: #0f0f2e; border: 2px solid #334155; color: #cbd5e1; padding: 12px 16px; border-radius: 10px; cursor: pointer; text-align: left; font-size: 0.95rem; transition: all .2s; }
+  .opt:hover:not(:disabled) { border-color: #818cf8; color: #fff; }
+  .opt.correct { border-color: #34d399; background: #052e16; color: #34d399; }
+  .opt.wrong { border-color: #f87171; background: #2d0a0a; color: #f87171; }
+  .quiz-feedback { font-size: 0.95rem; min-height: 28px; margin: 8px 0; font-weight: bold; }
+  .quiz-feedback.ok { color: #34d399; }
+  .quiz-feedback.err { color: #f87171; }
+  .result-final { text-align: center; padding: 30px 10px; }
+  .result-final .big-score { font-size: 4rem; font-weight: bold; color: #fbbf24; }
+  .result-final p { color: #cbd5e1; margin: 10px 0; }
+  .stars { font-size: 2.5rem; margin: 10px 0; }
+
+  .next-btn { background: #4f46e5; color: #fff; border: none; padding: 10px 28px; border-radius: 20px; cursor: pointer; font-size: 1rem; margin-top: 10px; transition: background .2s; }
+  .next-btn:hover { background: #6366f1; }
+
+  .section { overflow-y: auto; }
 </style>
 </head>
-
 <body>
 
 <div class="nav">
@@ -30,117 +116,381 @@ p { margin-bottom: 12px; color: #cbd5e1; }
   <button onclick="goTo('quiz')">📝 Quiz</button>
 </div>
 
-<!-- INTRO -->
 <div id="intro" class="section active">
-<h1>O que é a Tabela ASCII?</h1>
+  <div class="hero">
+    <div class="emoji">💻</div>
+    <h1>O que é a Tabela ASCII?</h1>
+    <h2>Descobrindo como o computador "lê" letras!</h2>
+  </div>
+  <p>Você já se perguntou como um computador entende a letra <strong style="color:#818cf8">A</strong> ou o número <strong style="color:#34d399">7</strong>? Computadores só entendem números — então precisamos de um "dicionário" que diz qual número representa cada símbolo!</p>
 
-<p>Computadores trabalham com números — então precisamos de um "dicionário" que representa letras e símbolos usando números.</p>
+  <div class="analogy-box">
+    <h3>🎯 Analogia: O Código Secreto da Escola</h3>
+    <p>Imagina que você e seus amigos criaram um código secreto onde cada letra tem um número. <strong style="color:#818cf8">A = 1, B = 2, C = 3...</strong> A Tabela ASCII é exatamente isso, mas para computadores — um código que o mundo inteiro usa!</p>
+  </div>
 
-<div class="analogy-box">
-<p>Exemplo: <strong>A = 65, B = 66, C = 67...</strong></p>
+  <p>A sigla <strong style="color:#818cf8">ASCII</strong> vem do inglês: <em>American Standard Code for Information Interchange</em> — ou seja, um padrão americano de códigos para trocar informações.</p>
+
+  <h2>Veja alguns exemplos:</h2>
+  <div class="char-demo" id="charDemo"></div>
+
+  <div class="analogy-box">
+    <h3>📅 Curiosidade histórica</h3>
+    <p>A tabela ASCII foi criada em <strong style="color:#fbbf24">1963</strong> e define 128 caracteres — letras, números, pontuação e símbolos especiais. Ela foi tão importante que ainda é a base dos textos digitais até hoje!</p>
+  </div>
+
+  <button class="btn-primary" onclick="goTo('tabela')">Explorar a Tabela →</button>
 </div>
 
-<p>A tabela ASCII foi um dos primeiros padrões usados pelos computadores — e influenciou sistemas mais modernos.</p>
-
-<p><strong>Hoje usamos o Unicode</strong>, que permite representar acentos e emojis.</p>
-
-<p style="color:#fbbf24;">⚠️ Caracteres com acento (á, ç) não fazem parte da ASCII original.</p>
-
-<!-- DESAFIO -->
-<div class="analogy-box">
-<h3>🧪 Desafio</h3>
-<p>Escreva seu nome usando códigos ASCII e teste no codificador!</p>
-</div>
-
-<button class="btn-primary" onclick="goTo('tabela')">Explorar →</button>
-</div>
-
-<!-- TABELA -->
 <div id="tabela" class="section">
-<h1>📋 Tabela ASCII</h1>
-
-<p>💡 Letras minúsculas ficam sempre 32 números acima das maiúsculas!</p>
-
-<div id="asciiGrid"></div>
+  <h1>📋 Tabela ASCII Interativa</h1>
+  <p>Clique em qualquer caractere para ver detalhes. Use os filtros para navegar:</p>
+  <div class="filter-row" id="filterRow">
+    <button class="active" onclick="filterTable('all', this)">Todos</button>
+    <button onclick="filterTable('upper', this)">A–Z</button>
+    <button onclick="filterTable('lower', this)">a–z</button>
+    <button onclick="filterTable('digit', this)">0–9</button>
+    <button onclick="filterTable('punct', this)">Símbolos</button>
+  </div>
+  <div class="ascii-grid" id="asciiGrid"></div>
+  <div class="detail-box" id="detailBox">
+    <div class="detail-big" id="dChar"></div>
+    <div class="detail-info">
+      <span>Decimal: <strong id="dDec"></strong></span>
+      <span>Hexadecimal: <strong id="dHex"></strong></span>
+      <span>Binário: <strong id="dBin"></strong></span>
+      <span id="dDesc" style="color:#fbbf24;margin-top:6px;font-style:italic;"></span>
+    </div>
+  </div>
 </div>
 
-<!-- CODEC -->
 <div id="codec" class="section">
-<h1>Codificador</h1>
-
-<textarea id="encodeInput" placeholder="Ex: Ola Turma"></textarea>
-<button class="btn-primary" onclick="doEncode()">Converter</button>
-
-<div id="encodeResult"></div>
+  <h1>🔐 Codificador / Decodificador</h1>
+  <p>Transforme texto em códigos ASCII ou descubra mensagens secretas!</p>
+  <div class="codec-tabs">
+    <button class="active" id="tabEncode" onclick="switchCodec('encode')">✏️ Texto → Números</button>
+    <button id="tabDecode" onclick="switchCodec('decode')">🔢 Números → Texto</button>
+  </div>
+  <div id="encodePane">
+    <label style="color:#a5b4fc;font-size:.9rem;">Digite seu texto (sem acentos para um ASCII puro!):</label><br><br>
+    <textarea id="encodeInput" rows="3" placeholder="Ex: Ola Turma" oninput="limparAcentos(this)"></textarea>
+    <button class="btn-primary" onclick="doEncode()">Codificar 🔒</button>
+    <div class="result-label">Resultado em ASCII (decimal):</div>
+    <div class="result-box" id="encodeResult">—</div>
+  </div>
+  <div id="decodePane" style="display:none">
+    <label style="color:#a5b4fc;font-size:.9rem;">Digite os números separados por espaço:</label><br><br>
+    <textarea id="decodeInput" rows="3" placeholder="Ex: 72 101 108 108 111"></textarea>
+    <button class="btn-primary" onclick="doDecode()">Decodificar 🔓</button>
+    <div class="result-label">Mensagem decodificada:</div>
+    <div class="result-box" id="decodeResult">—</div>
+  </div>
 </div>
 
-<!-- JOGO -->
 <div id="jogo" class="section">
-<h1>🎮 Jogo</h1>
-
-<p id="gameCodes"></p>
-<input id="gameAnswer">
-
-<button onclick="checkAnswer()">Verificar</button>
-<p id="gameFeedback"></p>
+  <h1>🎮 Decodifique a Mensagem!</h1>
+  <p>Você receberá uma sequência de números ASCII. Descubra a palavra secreta!</p>
+  <div class="game-area">
+    <div class="score-row">
+      <div class="score-badge">Pontos: <span id="gameScore">0</span></div>
+      <div class="score-badge">Nível: <span id="gameLevel">1</span></div>
+      <div class="score-badge">Vidas: <span id="gameLives">❤️❤️❤️</span></div>
+    </div>
+    <div class="hint">Converta cada número para a letra correspondente na tabela ASCII:</div>
+    <div class="message-codes" id="gameCodes">—</div>
+    <div class="letter-slots" id="gameSlots"></div>
+    <div class="game-input">
+      <input type="text" id="gameAnswer" placeholder="Digite sua resposta" maxlength="20" onkeydown="if(event.key==='Enter') checkAnswer()">
+      <button class="btn-primary" onclick="checkAnswer()">Verificar ✅</button>
+    </div>
+    <div class="game-feedback" id="gameFeedback"></div>
+    <button class="next-btn" id="nextWordBtn" onclick="nextWord()" style="display:none">Próxima palavra →</button>
+  </div>
 </div>
 
-<!-- QUIZ -->
 <div id="quiz" class="section">
-<h1>📝 Quiz</h1>
-
-<p id="quizQ"></p>
-<div id="quizOpts"></div>
+  <h1>📝 Quiz Final</h1>
+  <p>Teste seus conhecimentos sobre a Tabela ASCII!</p>
+  <div class="quiz-progress" id="quizProgress"></div>
+  <div id="quizArea"></div>
 </div>
 
 <script>
-
-// NAV
-function goTo(id){
-document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-document.getElementById(id).classList.add('active');
+// ===================== DADOS =====================
+const CHARS = [];
+for (let i = 32; i < 127; i++) {
+  let cat = 'punct';
+  if (i >= 48 && i <= 57) cat = 'digit';
+  else if (i >= 65 && i <= 90) cat = 'upper';
+  else if (i >= 97 && i <= 122) cat = 'lower';
+  CHARS.push({ code: i, char: String.fromCharCode(i), cat });
 }
 
-// CODEC
-function doEncode(){
-let t=document.getElementById("encodeInput").value;
-document.getElementById("encodeResult").textContent =
-t.split('').map(c=>c.charCodeAt(0)).join(" ");
-}
-
-// JOGO
-let palavra="CAT";
-
-document.getElementById("gameCodes").textContent =
-palavra.split('').map(c=>c.charCodeAt(0)).join(" ");
-
-function checkAnswer(){
-let r=document.getElementById("gameAnswer").value.toUpperCase();
-document.getElementById("gameFeedback").textContent =
-(r===palavra)?"✅ Correto":"❌ Era "+palavra;
-}
-
-// QUIZ MELHORADO
-let perguntas=[
-{
-q:"67 65 84 forma qual palavra?",
-opts:["BAT","CAT","CAR","CAP"],
-a:1
-}
-];
-
-document.getElementById("quizQ").textContent = perguntas[0].q;
-
-perguntas[0].opts.forEach((o,i)=>{
-let b=document.createElement("button");
-b.textContent=o;
-b.onclick=()=>{
-alert(i===perguntas[0].a?"✅ Correto":"❌ Errado");
+const DESCS = {
+  32: 'Espaço em branco', 33: 'Ponto de exclamação', 34: 'Aspas duplas',
+  35: 'Cerquilha (#)', 36: 'Cifrão ($)', 37: 'Porcentagem (%)',
+  38: 'E comercial (&)', 39: 'Apóstrofo', 40: 'Parêntese abre',
+  41: 'Parêntese fecha', 42: 'Asterisco (*)', 43: 'Sinal de mais (+)',
+  44: 'Vírgula', 45: 'Hífen (-)', 46: 'Ponto final', 47: 'Barra (/)',
+  58: 'Dois-pontos (:)', 59: 'Ponto e vírgula (;)', 60: 'Menor que (<)',
+  61: 'Igual (=)', 62: 'Maior que (>)', 63: 'Ponto de interrogação',
+  64: 'Arroba (@)', 91: 'Colchete abre', 92: 'Contrabarra',
+  93: 'Colchete fecha', 94: 'Circunflexo (^)', 95: 'Sublinhado (_)',
+  96: 'Acento grave', 123: 'Chave abre', 124: 'Barra vertical (|)',
+  125: 'Chave fecha', 126: 'Til (~)'
 };
-document.getElementById("quizOpts").appendChild(b);
+
+// ===================== UTILS =====================
+function limparAcentos(input) {
+  // Substitui caracteres acentuados comuns para evitar confusão com ASCII estendido
+  input.value = input.value.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+// ===================== INTRO =====================
+const demoChars = [
+  {c:'A',n:65},{c:'B',n:66},{c:'Z',n:90},
+  {c:'a',n:97},{c:'z',n:122},{c:'0',n:48},
+  {c:'!',n:33},{c:'@',n:64},{c:' ',n:32}
+];
+const cd = document.getElementById('charDemo');
+demoChars.forEach(d => {
+  cd.innerHTML += `<div class="char-card"><div class="letter">${d.c==' '?'␣':d.c}</div><div class="arrow">↓</div><div class="code">${d.n}</div></div>`;
 });
 
-</script>
+// ===================== TABELA =====================
+let selCell = null;
+function buildGrid(filter='all') {
+  const g = document.getElementById('asciiGrid');
+  g.innerHTML = '';
+  CHARS.filter(c => filter==='all' || c.cat===filter).forEach(c => {
+    const d = document.createElement('div');
+    d.className = 'ascii-cell';
+    d.innerHTML = `<div class="ac">${c.code===32?'␣':c.char}</div><div class="an">${c.code}</div>`;
+    d.onclick = () => showDetail(c, d);
+    g.appendChild(d);
+  });
+}
+function filterTable(f, btn) {
+  document.querySelectorAll('.filter-row button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  buildGrid(f);
+  document.getElementById('detailBox').classList.remove('show');
+}
+function showDetail(c, el) {
+  if (selCell) selCell.classList.remove('selected');
+  selCell = el;
+  el.classList.add('selected');
+  document.getElementById('dChar').textContent = c.code===32?'␣':c.char;
+  document.getElementById('dDec').textContent = c.code;
+  document.getElementById('dHex').textContent = '0x' + c.code.toString(16).toUpperCase().padStart(2,'0');
+  document.getElementById('dBin').textContent = c.code.toString(2).padStart(8,'0');
+  document.getElementById('dDesc').textContent = DESCS[c.code] ||
+    (c.cat==='upper' ? `Letra maiúscula ${c.char}` :
+     c.cat==='lower' ? `Letra minúscula ${c.char}` :
+     c.cat==='digit' ? `Dígito numérico ${c.char}` : '');
+  
+  const box = document.getElementById('detailBox');
+  box.classList.add('show');
+  // Garante visibilidade em monitores menores
+  box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+buildGrid();
 
+// ===================== CODEC =====================
+function switchCodec(mode) {
+  document.getElementById('encodePane').style.display = mode==='encode'?'block':'none';
+  document.getElementById('decodePane').style.display = mode==='decode'?'block':'none';
+  document.getElementById('tabEncode').classList.toggle('active', mode==='encode');
+  document.getElementById('tabDecode').classList.toggle('active', mode==='decode');
+}
+function doEncode() {
+  const t = document.getElementById('encodeInput').value;
+  if (!t) return;
+  const res = t.split('').map(c => c.charCodeAt(0)).join(' ');
+  document.getElementById('encodeResult').textContent = res || '—';
+}
+function doDecode() {
+  const t = document.getElementById('decodeInput').value.trim();
+  if (!t) return;
+  try {
+    const res = t.split(/\s+/).map(n => {
+      const code = parseInt(n);
+      return (code>=32&&code<=126) ? String.fromCharCode(code) : '?';
+    }).join('');
+    document.getElementById('decodeResult').textContent = res;
+  } catch(e) { document.getElementById('decodeResult').textContent = 'Erro: verifique os números'; }
+}
+
+// ===================== JOGO =====================
+const WORDS = [
+  'SOL','LUA','MAR','COR','PAZ','BEM','CEU','RIO','DIA','FIM',
+  'GATO','CASA','VIDA','AMOR','AZUL','LAGO','ROSA','PATO',
+  'ESCOLA','TURMA','CODIGO','NUMERO','TECLADO'
+];
+let gScore=0, gLevel=1, gLives=3, gWord='', gIdx=0;
+
+function startGame() {
+  gScore=0; gLevel=1; gLives=3; gIdx=0;
+  updateGameUI();
+  nextWord();
+}
+
+function updateGameUI() {
+  document.getElementById('gameScore').textContent = gScore;
+  document.getElementById('gameLevel').textContent = gLevel;
+  const h = ['❤️','❤️','❤️'];
+  document.getElementById('gameLives').textContent = h.slice(0,gLives).join('') || '💀';
+}
+
+function nextWord() {
+  document.getElementById('nextWordBtn').style.display = 'none';
+  document.getElementById('gameFeedback').textContent = '';
+  document.getElementById('gameAnswer').value = '';
+  document.getElementById('gameAnswer').disabled = false;
+
+  const pool = WORDS.filter(w => w.length <= 3 + gLevel);
+  gWord = pool[Math.floor(Math.random()*pool.length)];
+  gIdx++;
+
+  document.getElementById('gameCodes').textContent = gWord.split('').map(c=>c.charCodeAt(0)).join(' ');
+
+  const slots = document.getElementById('gameSlots');
+  slots.innerHTML = gWord.split('').map(()=>'<div class="slot">_</div>').join('');
+}
+
+function checkAnswer() {
+  const ans = document.getElementById('gameAnswer').value.toUpperCase().trim();
+  const fb = document.getElementById('gameFeedback');
+  const slots = document.querySelectorAll('.slot');
+
+  // Limpa estados de classes anteriores para evitar bugs de digitação parcial
+  slots.forEach(s => { s.textContent = '_'; s.className = 'slot'; });
+
+  ans.split('').forEach((ch,i) => {
+    if(i < slots.length) {
+      slots[i].textContent = ch;
+      slots[i].className = 'slot ' + (ch===gWord[i]?'correct':'wrong');
+    }
+  });
+
+  if(ans === gWord) {
+    fb.textContent = '🎉 Correto! +10 pontos';
+    fb.className = 'game-feedback ok';
+    gScore += 10;
+    if(gIdx % 3 === 0) gLevel = Math.min(gLevel+1, 5);
+  } else {
+    // Se digitou incompleto, força o feedback visual de erro nos slots vazios também
+    slots.forEach((s, i) => {
+      if(s.textContent === '_') { s.textContent = gWord[i]; s.className = 'slot wrong'; }
+    });
+    fb.textContent = `❌ Era: ${gWord}`;
+    fb.className = 'game-feedback err';
+    gLives--;
+    if(gLives<=0) {
+      fb.textContent = `💀 Fim de jogo! Pontuação: ${gScore}`;
+      document.getElementById('gameAnswer').disabled = true;
+      document.getElementById('nextWordBtn').textContent = '🔄 Jogar novamente';
+      document.getElementById('nextWordBtn').onclick = startGame;
+      document.getElementById('nextWordBtn').style.display = 'inline-block';
+      updateGameUI(); return;
+    }
+  }
+  updateGameUI();
+  document.getElementById('gameAnswer').disabled = true;
+  document.getElementById('nextWordBtn').style.display = 'inline-block';
+  document.getElementById('nextWordBtn').textContent = 'Próxima palavra →';
+  document.getElementById('nextWordBtn').onclick = nextWord;
+}
+
+startGame();
+
+// ===================== QUIZ =====================
+const QUESTIONS = [
+  { q: 'O que significa a sigla ASCII?', opts: ['American Standard Code for Information Interchange','Advanced System for Computer Input Interface','Automated Standard Code for Internet Interchange','American Software Control and Input Index'], ans: 0, exp: 'ASCII = American Standard Code for Information Interchange.' },
+  { q: 'Qual é o código ASCII da letra maiúscula A?', opts: ['61','65','97','41'], ans: 1, exp: 'A maiúscula tem código decimal 65.' },
+  { q: 'Qual é o código ASCII da letra minúscula a?', opts: ['65','61','97','100'], ans: 2, exp: 'A minúscula tem código 97 — 32 a mais que a maiúscula!' },
+  { q: 'Quantos caracteres a tabela ASCII original define?', opts: ['64','128','256','512'], ans: 1, exp: 'A tabela ASCII original define 128 caracteres (0 a 127).' },
+  { q: 'Qual é o código ASCII do espaço em branco?', opts: ['0','16','32','48'], ans: 2, exp: 'O espaço tem código 32.' },
+  { q: 'Se "H" = 72, qual é o código de "I"?', opts: ['71','72','73','74'], ans: 2, exp: 'As letras são sequenciais: H=72, I=73.' },
+  { q: 'Para que serve a Tabela ASCII?', opts: ['Para calcular velocidade do computador','Para representar caracteres com números','Para armazenar imagens','Para medir a memória RAM'], ans: 1, exp: 'ASCII é um padrão que representa letras, números e símbolos como números.' },
+  { q: 'Qual sequência ASCII forma a palavra "HI"?', opts: ['73 72','72 73','72 74','71 73'], ans: 1, exp: 'H=72 e I=73, então "HI" = 72 73.' },
+];
+
+let qIdx=0, qScore=0, qAnswered=false;
+
+function buildQuiz() {
+  const prog = document.getElementById('quizProgress');
+  prog.innerHTML = QUESTIONS.map((_,i)=>`<div class="qp-dot ${i<qIdx?'done':i===qIdx?'current':''}"></div>`).join('');
+
+  if(qIdx >= QUESTIONS.length) { showResult(); return; }
+
+  const q = QUESTIONS[qIdx];
+  document.getElementById('quizArea').innerHTML = `
+    <div class="question-box">
+      <p><strong>${qIdx+1}/${QUESTIONS.length}.</strong> ${q.q}</p>
+      <div class="options">
+        ${q.opts.map((o,i)=>`<button class="opt" id="opt${i}" onclick="pickOpt(${i})">${String.fromCharCode(65+i)}) ${o}</button>`).join('')}
+      </div>
+    </div>
+    <div class="quiz-feedback" id="qFeedback"></div>
+    <button class="next-btn" id="qNext" onclick="nextQ()" style="display:none">${qIdx<QUESTIONS.length-1?'Próxima pergunta →':'Ver resultado 🏆'}</button>
+  `;
+  qAnswered = false;
+}
+
+function pickOpt(i) {
+  if(qAnswered) return;
+  qAnswered = true;
+  const q = QUESTIONS[qIdx];
+  const fb = document.getElementById('qFeedback');
+  for(let j=0;j<q.opts.length;j++) {
+    const b = document.getElementById('opt'+j);
+    b.disabled = true;
+    if(j===q.ans) b.classList.add('correct');
+    else if(j===i) b.classList.add('wrong');
+  }
+  if(i===q.ans) {
+    fb.textContent = '✅ Correto! ' + q.exp;
+    fb.className = 'quiz-feedback ok';
+    qScore++;
+  } else {
+    fb.textContent = '❌ ' + q.exp;
+    fb.className = 'quiz-feedback err';
+  }
+  document.getElementById('qNext').style.display = 'inline-block';
+}
+
+function nextQ() { qIdx++; buildQuiz(); }
+
+function showResult() {
+  const pct = Math.round(qScore/QUESTIONS.length*100);
+  const stars = pct>=80?'⭐⭐⭐':pct>=50?'⭐⭐':'⭐';
+  const msg = pct===100?'Perfeito! Você é expert em ASCII!':pct>=80?'Muito bem! Você domina o assunto!':pct>=50?'Bom trabalho! Revise alguns pontos.':'Continue estudando — você consegue!';
+  document.getElementById('quizProgress').innerHTML = QUESTIONS.map(()=>'<div class="qp-dot done"></div>').join('');
+  document.getElementById('quizArea').innerHTML = `
+    <div class="result-final">
+      <div class="big-score">${qScore}/${QUESTIONS.length}</div>
+      <div class="stars">${stars}</div>
+      <p>${msg}</p>
+      <p style="color:#64748b">${pct}% de acertos</p>
+      <button class="btn-primary" onclick="restartQuiz()" style="margin-top:16px">🔄 Tentar novamente</button>
+      <button class="btn-primary" onclick="goTo('intro')" style="margin-top:10px;margin-left:8px;background:#1e1e4a">🏠 Início</button>
+    </div>
+  `;
+}
+
+function restartQuiz() { qIdx=0; qScore=0; buildQuiz(); }
+
+// ===================== NAV =====================
+function goTo(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const labels = {intro:0,tabela:1,codec:2,jogo:3,quiz:4};
+  document.querySelectorAll('.nav button')[labels[id]].classList.add('active');
+  if(id==='quiz') buildQuiz();
+  window.scrollTo(0,0);
+}
+</script>
 </body>
 </html>
