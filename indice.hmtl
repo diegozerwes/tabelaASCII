@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabela ASCII — 7º Ano</title>
+
+<style>
+* { box-sizing: border-box; margin:0; padding:0; }
+body { font-family:'Segoe UI',sans-serif; background:#0f0f2e; color:#fff; }
+
+/* NAV */
+.nav { display:flex; justify-content:center; gap:8px; padding:14px; background:#1a1a3e; flex-wrap:wrap; position:sticky; top:0; }
+.nav button { border:2px solid #4f46e5; background:transparent; color:#a5b4fc; padding:6px 14px; border-radius:20px; cursor:pointer; }
+.nav button.active, .nav button:hover { background:#4f46e5; color:#fff; }
+
+/* SECTIONS */
+.section { display:none; padding:30px 20px; max-width:860px; margin:auto; }
+.section.active { display:block; }
+
+h1 { margin-bottom:10px; }
+h2 { margin-bottom:12px; color:#a5b4fc; }
+p { margin-bottom:10px; color:#cbd5e1; }
+
+/* BOXES */
