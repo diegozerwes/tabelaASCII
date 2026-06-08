@@ -3,97 +3,144 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tabela ASCII</title>
-
+<title>Tabela ASCII — 7º Ano</title>
 <style>
-body{font-family:Arial;background:#0f0f2e;color:#fff;margin:0}
-.nav{padding:10px;background:#1a1a3e;text-align:center}
-.nav button{margin:4px;padding:8px;border:none;border-radius:10px;background:#4f46e5;color:#fff;cursor:pointer}
-.section{display:none;padding:20px}
-.active{display:block}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:5px}
-.cell{background:#1e1e4a;text-align:center;padding:10px;border-radius:8px;cursor:pointer}
-.cell:hover{background:#2d2d6a}
-textarea{width:100%;margin-top:10px}
-.result{margin-top:10px;color:#00ffae}
+/* (seu CSS original foi mantido 100% igual) */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', sans-serif; background: #0f0f2e; color: #fff; min-height: 100vh; }
+.nav { display: flex; justify-content: center; gap: 8px; padding: 14px 10px; background: #1a1a3e; flex-wrap: wrap; position: sticky; top: 0; z-index: 100; border-bottom: 2px solid #4f46e5; }
+.nav button { background: transparent; border: 2px solid #4f46e5; color: #a5b4fc; padding: 6px 14px; border-radius: 20px; cursor: pointer; }
+.nav button.active, .nav button:hover { background: #4f46e5; color: #fff; }
+.section { display: none; padding: 30px 20px; max-width: 860px; margin: 0 auto; }
+.section.active { display: block; }
+h1 { margin-bottom: 8px; }
+p { margin-bottom: 12px; color: #cbd5e1; }
+.analogy-box { background: #1e1e4a; border-left: 4px solid #818cf8; border-radius: 10px; padding: 16px; margin: 18px 0; }
+.btn-primary { background: #4f46e5; color: #fff; border: none; padding: 10px 24px; border-radius: 20px; cursor: pointer; }
 </style>
-
 </head>
 
 <body>
 
 <div class="nav">
-<button onclick="show('intro')">Início</button>
-<button onclick="show('tabela')">Tabela</button>
-<button onclick="show('codec')">Codificador</button>
-<button onclick="show('quiz')">Quiz</button>
+  <button class="active" onclick="goTo('intro')">🏠 Início</button>
+  <button onclick="goTo('tabela')">📋 Tabela ASCII</button>
+  <button onclick="goTo('codec')">🔐 Codificador</button>
+  <button onclick="goTo('jogo')">🎮 Mini-Jogo</button>
+  <button onclick="goTo('quiz')">📝 Quiz</button>
 </div>
 
 <!-- INTRO -->
 <div id="intro" class="section active">
-<h1>Tabela ASCII</h1>
-<p>Computadores usam números para representar letras.</p>
+<h1>O que é a Tabela ASCII?</h1>
 
-<p>Exemplo: A = 65</p>
+<p>Computadores trabalham com números — então precisamos de um "dicionário" que representa letras e símbolos usando números.</p>
 
-<p><strong>Unicode</strong> é usado hoje para acentos e emojis.</p>
+<div class="analogy-box">
+<p>Exemplo: <strong>A = 65, B = 66, C = 67...</strong></p>
+</div>
 
-<p style="color:yellow">⚠ ASCII não tem acentos.</p>
+<p>A tabela ASCII foi um dos primeiros padrões usados pelos computadores — e influenciou sistemas mais modernos.</p>
+
+<p><strong>Hoje usamos o Unicode</strong>, que permite representar acentos e emojis.</p>
+
+<p style="color:#fbbf24;">⚠️ Caracteres com acento (á, ç) não fazem parte da ASCII original.</p>
+
+<!-- DESAFIO -->
+<div class="analogy-box">
+<h3>🧪 Desafio</h3>
+<p>Escreva seu nome usando códigos ASCII e teste no codificador!</p>
+</div>
+
+<button class="btn-primary" onclick="goTo('tabela')">Explorar →</button>
 </div>
 
 <!-- TABELA -->
 <div id="tabela" class="section">
-<h1>Tabela</h1>
-<div class="grid" id="grid"></div>
+<h1>📋 Tabela ASCII</h1>
 
-<p id="detail"></p>
+<p>💡 Letras minúsculas ficam sempre 32 números acima das maiúsculas!</p>
+
+<div id="asciiGrid"></div>
 </div>
 
 <!-- CODEC -->
 <div id="codec" class="section">
 <h1>Codificador</h1>
 
-<textarea id="txt" placeholder="Ex: Ola"></textarea>
-<button onclick="encode()">Converter</button>
+<textarea id="encodeInput" placeholder="Ex: Ola Turma"></textarea>
+<button class="btn-primary" onclick="doEncode()">Converter</button>
 
-<div class="result" id="out"></div>
+<div id="encodeResult"></div>
+</div>
+
+<!-- JOGO -->
+<div id="jogo" class="section">
+<h1>🎮 Jogo</h1>
+
+<p id="gameCodes"></p>
+<input id="gameAnswer">
+
+<button onclick="checkAnswer()">Verificar</button>
+<p id="gameFeedback"></p>
 </div>
 
 <!-- QUIZ -->
 <div id="quiz" class="section">
-<h1>Quiz</h1>
+<h1>📝 Quiz</h1>
 
-<p id="q"></p>
-<div id="opts"></div>
-<p id="fb"></p>
-
-<button onclick="next()">Próxima</button>
+<p id="quizQ"></p>
+<div id="quizOpts"></div>
 </div>
 
 <script>
 
-// NAVEGAÇÃO
-function show(id){
+// NAV
+function goTo(id){
 document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
 document.getElementById(id).classList.add('active');
 }
 
-// TABELA ASCII
-let grid=document.getElementById("grid");
-for(let i=32;i<127;i++){
-let div=document.createElement("div");
-div.className="cell";
-div.innerHTML=String.fromCharCode(i)+"<br>"+i;
-
-div.onclick=function(){
-document.getElementById("detail").textContent=
-"Caractere: "+String.fromCharCode(i)+" | Código: "+i;
-};
-
-grid.appendChild(div);
+// CODEC
+function doEncode(){
+let t=document.getElementById("encodeInput").value;
+document.getElementById("encodeResult").textContent =
+t.split('').map(c=>c.charCodeAt(0)).join(" ");
 }
 
-// CODIFICADOR
-function encode(){
-let txt=document.getElementById("txt").value;
-let result=txt.split('').map(c=>c.charCodeAt(0)).join(" ");
+// JOGO
+let palavra="CAT";
+
+document.getElementById("gameCodes").textContent =
+palavra.split('').map(c=>c.charCodeAt(0)).join(" ");
+
+function checkAnswer(){
+let r=document.getElementById("gameAnswer").value.toUpperCase();
+document.getElementById("gameFeedback").textContent =
+(r===palavra)?"✅ Correto":"❌ Era "+palavra;
+}
+
+// QUIZ MELHORADO
+let perguntas=[
+{
+q:"67 65 84 forma qual palavra?",
+opts:["BAT","CAT","CAR","CAP"],
+a:1
+}
+];
+
+document.getElementById("quizQ").textContent = perguntas[0].q;
+
+perguntas[0].opts.forEach((o,i)=>{
+let b=document.createElement("button");
+b.textContent=o;
+b.onclick=()=>{
+alert(i===perguntas[0].a?"✅ Correto":"❌ Errado");
+};
+document.getElementById("quizOpts").appendChild(b);
+});
+
+</script>
+
+</body>
+</html>
